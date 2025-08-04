@@ -1,0 +1,11 @@
+Flask
+sentence-transformers
+pdfplumber
+PyMuPDF
+python-docx
+easyocr
+torch
+torchvision
+torchaudio
+openpyxl
+pandas
