@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Matcher - Upload Resume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS for glassmorphism & file input -->
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        input[type="file"]::before {
+            content: '📄 Select Resume';
+            display: inline-block;
+            background: #4f46e5;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        input[type="file"]:hover::before {
+            background: #4338ca;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-indigo-900 via-purple-900 to-pink-900 min-h-screen flex items-center justify-center text-white font-sans">
+
+    <div class="max-w-xl w-full p-8 glass rounded-3xl shadow-xl">
+        <h1 class="text-4xl font-bold text-center mb-6">Upload Your Resume</h1>
+
+        <form action="/upload_custom" method="POST" enctype="multipart/form-data" class="flex flex-col items-center space-y-6">
+            <input type="file" name="custom_resume" accept=".pdf,.docx,.jpg,.jpeg,.png,.txt" required class="text-white w-full file-input" />
+
+            <button type="submit" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg">
+                Upload & Preview
+            </button>
+        </form>
+
+        {% if extracted_text %}
+        <div class="mt-8">
+            <h2 class="text-lg font-semibold mb-2">Extracted Text Preview</h2>
+            <div class="bg-white text-black p-4 rounded-lg max-h-64 overflow-y-auto text-sm shadow-inner">
+                <pre>{{ extracted_text }}</pre>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a href="/input" class="inline-block bg-green-600 hover:bg-green-800 text-white px-6 py-2 rounded-lg transition-all duration-300">
+                    Next: Upload Folder
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

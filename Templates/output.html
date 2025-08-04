@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Match Results</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #eef2f3, #8e9eab);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+      text-shadow: 1px 1px 2px #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #4a90e2;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f0f8ff;
+    }
+    .btn {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px 18px;
+      font-size: 15px;
+      text-decoration: none;
+      background-color: #4a90e2;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #357ab7;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Resume Match Results</h1>
+
+  <div class="form-section">
+    <form action="/sort_results" method="POST">
+      <label for="sort_by">Sort By:</label>
+      <select name="sort_by" id="sort_by">
+        <option value="Match_Percentage" {% if sort_by=='Match_Percentage' %}selected{% endif %}>Match Percentage</option>
+        <option value="Skills_Match" {% if sort_by=='Skills_Match' %}selected{% endif %}>Skills Match</option>
+        <option value="Experience_Match" {% if sort_by=='Experience_Match' %}selected{% endif %}>Experience Match</option>
+        <option value="Education_Match" {% if sort_by=='Education_Match' %}selected{% endif %}>Education Match</option>
+        <option value="Projects_Match" {% if sort_by=='Projects_Match' %}selected{% endif %}>Projects Match</option>
+        <option value="Certifications_Match" {% if sort_by=='Certifications_Match' %}selected{% endif %}>Certifications Match</option>
+      </select>
+      <button class="btn" type="submit">Sort</button>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Resume</th>
+        <th>Match %</th>
+        <th>Skills</th>
+        <th>Experience</th>
+        <th>Education</th>
+        <th>Projects</th>
+        <th>Certifications</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in results %}
+      <tr>
+        <td>{{ row.Resume }}</td>
+        <td>{{ row.Match_Percentage }}%</td>
+        <td>{{ row.Skills_Match }}%</td>
+        <td>{{ row.Experience_Match }}%</td>
+        <td>{{ row.Education_Match }}%</td>
+        <td>{{ row.Projects_Match }}%</td>
+        <td>{{ row.Certifications_Match }}%</td>
+        <td><a class="btn" href="{{ url_for('view_resume', filename=row.Resume) }}" target="_blank">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="form-section">
+    <a href="/download/csv?sort_by={{ sort_by }}" class="btn">Download CSV</a>
+    <a href="/download/xlsx?sort_by={{ sort_by }}" class="btn">Download XLSX</a>
+  </div>
+
+</body>
+</html>
